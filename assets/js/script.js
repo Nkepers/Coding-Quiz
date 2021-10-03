@@ -38,12 +38,32 @@ function displayQuestion(questions) {
 function resetState() {
     while (answerButtonEl.firstChild) {
         answerButtonEl.removeChild
-        (answerButtonEl.firstChild)
+            (answerButtonEl.firstChild)
     }
 }
 
-function chooseAnswer(event) {
-    
+function chooseAnswer(e) {
+    var chosenButton = e.target
+    var correct = chosenButton.dataset.correct
+    setStatusClass(document.body, correct)
+    Array.from(answerButtonEl.children).forEach(button => {
+        setStatusClass(button, button.dataset.correct)
+    })
+}
+
+function setStatusClass(element, correct) {
+    clearStatusClass(element)
+    if (correct) {
+        element.classList.add("correct")
+    }
+    else {
+        element.classList.add("wrong")
+    }
+}
+
+function clearStatusClass(element) {
+    element.classList.remove("correct")
+    element.classList.remove("wrong")
 }
 
 // Questions to be asked

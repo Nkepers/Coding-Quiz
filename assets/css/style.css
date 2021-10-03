@@ -3,6 +3,11 @@
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
+:root {
+    --color-correct: rgb(57, 235, 57);
+    --color-wrong: rgb(223, 45, 45);
+}
+
 body {
     padding: 0;
     margin: 0;
@@ -40,6 +45,14 @@ body {
     background-color: rgb(62, 231, 231);
     border-color: black;
     cursor: pointer;
+}
+
+.btn.correct {
+    --hue: var(--color-correct);
+}
+
+.btn.wrong {
+    --hue: var(--color-wrong);
 }
 
 #start-btn {
