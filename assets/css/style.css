@@ -1,0 +1,53 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(56, 56, 56);
+}
+
+.container {
+    width: 800px;
+    max-width: 80%;
+    background-color: white;
+    border-radius: 20px;
+    border: solid black 5px;
+    padding: 10px;
+}
+
+.btn-grid {
+    display: grid;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.btn {
+    font-size: 25px;
+    border-radius: 5px;
+    padding: 5px 10px;
+    outline: none;
+}
+
+.btn:hover {
+    background-color: rgb(62, 231, 231);
+    border-color: black;
+    cursor: pointer;
+}
+
+#start-btn {
+    font-size: 25px;
+    font-weight: bold;
+    padding: 10px 20px;
+}
+
+.hide {
+    display: none;
+}
