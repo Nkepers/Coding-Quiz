@@ -42,17 +42,16 @@ body {
 }
 
 .btn:hover {
-    background-color: rgb(62, 231, 231);
     border-color: black;
     cursor: pointer;
 }
 
 .btn.correct {
-    --hue: var(--color-correct);
+    background-color: var(--color-correct);
 }
 
 .btn.wrong {
-    --hue: var(--color-wrong);
+    background-color: var(--color-wrong);
 }
 
 #start-btn {
