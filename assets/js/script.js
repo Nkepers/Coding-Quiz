@@ -3,6 +3,7 @@ let mixQuestions, questionsIndex
 var questionContainEl = document.getElementById("question-container");
 var questionEl = document.getElementById("question");
 var answerButtonEl = document.getElementById("answer-buttons");
+var timeLeft = 60;
 
 // WHEN I click the start button
 // THEN a timer starts and I am presented with a question
@@ -16,25 +17,33 @@ function beginQuiz() {
     nextQuestion()
 }
 
+//Calls for the next question if questions are left.
 function nextQuestion() {
-    resetState()
-    displayQuestion(mixQuestions[questionsIndex])
+    if (!mixQuestions[questionsIndex]) {
+        //end game function
+        //make hiScore function
+        console.log("endgameFunction")
+    }
+    else {
+        resetState()
+        displayQuestion(mixQuestions[questionsIndex])
+    }
 }
 
+//Displays the question with its 4 possible answers
 function displayQuestion(questions) {
     questionEl.innerText = questions.question
     questions.answers.forEach(answer => {
         var button = document.createElement("button")
         button.innerText = answer.text
         button.classList.add("btn")
-        if (answer.correct) {
-            button.dataset.correct = answer.correct
-        }
+        button.dataset.correct = answer.correct
         button.addEventListener("click", chooseAnswer)
         answerButtonEl.appendChild(button)
     })
 }
 
+// Resets the state of the answers
 function resetState() {
     while (answerButtonEl.firstChild) {
         answerButtonEl.removeChild
@@ -42,6 +51,7 @@ function resetState() {
     }
 }
 
+//Choose 1 of 4 answers, will deduct time from timer if incorrect
 function chooseAnswer(e) {
     var chosenButton = e.target
     var correct = chosenButton.dataset.correct
@@ -49,11 +59,19 @@ function chooseAnswer(e) {
     Array.from(answerButtonEl.children).forEach(button => {
         setStatusClass(button, button.dataset.correct)
     })
+    if (correct !== "true") {
+        timeLeft -= 5;
+    }
+
+    questionsIndex++;
+    setTimeout(nextQuestion, 1000)
+    
 }
 
+//Sets the color state of answer when chosen, green being correct red being wrong
 function setStatusClass(element, correct) {
     clearStatusClass(element)
-    if (correct) {
+    if (correct === "true") {
         element.classList.add("correct")
     }
     else {
@@ -76,20 +94,29 @@ var questions = [
             { text: "Nothing.", correct: false },
             { text: "Cancels out the function.", correct: false }
         ]
+    },
+
+    {
+        question: "What is an array?",
+        answers: [
+            { text: "A function to deploy multiple variables.", correct: false },
+            { text: "Calls the variable.", correct: false },
+            { text: "A single variable used to store different elements.", correct: true },
+            { text: "Object to cancel out an event listener.", correct: false }
+        ]
+    },
+
+    {
+        question: "Javascript cannot be used to affect the HTML.",
+        answers: [
+            { text: "True.", correct: false },
+            { text: "False.", correct: true },
+        ]
     }
 ]
 
-// WHEN I answer a question
-// THEN I am presented with another question
-// WHEN I answer a question incorrectly
-// THEN time is subtracted from the clock
-// WHEN all questions are answered or the timer reaches 0
-// THEN the game is over
-// WHEN the game is over
-// THEN I can save my initials and score
+//Timer countdown function
 function timerCountdown() {
-    var timeLeft = 60;
-
     var timeInterval = setInterval(function () {
         if (timeLeft > 1) {
             startTimer.textContent = timeLeft + " seconds remaining";
