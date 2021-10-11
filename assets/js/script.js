@@ -6,7 +6,7 @@ var answerButtonEl = document.getElementById("answer-buttons");
 var timeInterval = "";
 var timeLeft = 60;
 var highScoresEl = document.getElementById("highScores");
-var highScores = JSON.stringify(window.localStorage.getItem("score")) || [];
+var highScores = localStorage.getItem("score") || [];
 
 // WHEN I click the start button
 // THEN a timer starts and I am presented with a question
@@ -35,20 +35,20 @@ function nextQuestion() {
 function endGame() {
     clearInterval(timeInterval)
     questionContainEl.classList.add("hide")
+
     //Input initials for scoring
     var nameInput = document.createElement("input")
     nameInput.setAttribute("type", "text")
     highScoresEl.appendChild(nameInput)
+
     //Button to submit score
-    var highScoreBtn = document.createElement("input")
+    var highScoreBtn = document.createElement("button")
+    highScoreBtn.innerHTML = "SUBMIT"
     highScoreBtn.setAttribute("type", "submit")
     highScoreBtn.setAttribute("value", "Submit")
     highScoresEl.appendChild(highScoreBtn)
     highScoreBtn.addEventListener("click", highScoreBtn)
-    localStorage.setItem(nameInput.textcontent, timeLeft)
-    //add submit button and event listener
-    //add to highscores
-    //localstorage.setitem("score", highscores)
+    localStorage.setItem(nameInput.value, JSON.stringify(timeLeft))
 }
 
 //Displays the question with its 4 possible answers
