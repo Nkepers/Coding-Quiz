@@ -3,7 +3,10 @@ let mixQuestions, questionsIndex
 var questionContainEl = document.getElementById("question-container");
 var questionEl = document.getElementById("question");
 var answerButtonEl = document.getElementById("answer-buttons");
+var timeInterval = "";
 var timeLeft = 60;
+var highScoresEl = document.getElementById("highScores");
+var highScores = JSON.stringify(window.localStorage.getItem("score")) || [];
 
 // WHEN I click the start button
 // THEN a timer starts and I am presented with a question
@@ -20,14 +23,32 @@ function beginQuiz() {
 //Calls for the next question if questions are left.
 function nextQuestion() {
     if (!mixQuestions[questionsIndex]) {
-        //end game function
-        //make hiScore function
-        console.log("endgameFunction")
+        endGame()
     }
     else {
         resetState()
         displayQuestion(mixQuestions[questionsIndex])
     }
+}
+
+// This function is utilized when all questions are answered
+function endGame() {
+    clearInterval(timeInterval)
+    questionContainEl.classList.add("hide")
+    //Input initials for scoring
+    var nameInput = document.createElement("input")
+    nameInput.setAttribute("type", "text")
+    highScoresEl.appendChild(nameInput)
+    //Button to submit score
+    var highScoreBtn = document.createElement("input")
+    highScoreBtn.setAttribute("type", "submit")
+    highScoreBtn.setAttribute("value", "Submit")
+    highScoresEl.appendChild(highScoreBtn)
+    highScoreBtn.addEventListener("click", highScoreBtn)
+    localStorage.setItem(nameInput.textcontent, timeLeft)
+    //add submit button and event listener
+    //add to highscores
+    //localstorage.setitem("score", highscores)
 }
 
 //Displays the question with its 4 possible answers
@@ -65,7 +86,7 @@ function chooseAnswer(e) {
 
     questionsIndex++;
     setTimeout(nextQuestion, 1000)
-    
+
 }
 
 //Sets the color state of answer when chosen, green being correct red being wrong
@@ -112,12 +133,20 @@ var questions = [
             { text: "True.", correct: false },
             { text: "False.", correct: true },
         ]
+    },
+
+    {
+        question: "There is no difference between Var and Const.",
+        answers: [
+            { text: "True.", correct: false },
+            { text: "False.", correct: true },
+        ]
     }
 ]
 
 //Timer countdown function
 function timerCountdown() {
-    var timeInterval = setInterval(function () {
+    timeInterval = setInterval(function () {
         if (timeLeft > 1) {
             startTimer.textContent = timeLeft + " seconds remaining";
             timeLeft--;
